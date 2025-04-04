@@ -1,0 +1,11 @@
+# Automatically label changes based on module folders
+cam:
+    - "cam-module/**"
+  tap:
+    - "tap-module/**"
+  relay:
+    - "relay-node/**"
+  docs:
+    - "README.md"
+    - "LICENSE"
+  
