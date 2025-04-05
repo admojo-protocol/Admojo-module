@@ -1,11 +1,9 @@
-// AdNetCamModule.ino
 #include "esp_camera.h"
 #include <WiFi.h>
 
 extern "C" {
   #include "esp_http_server.h"
 }
-
 // Include our helper libraries
 #include "FirmwareHash.h"
 #include "SecureSign.h"
@@ -14,17 +12,19 @@ extern "C" {
 // Select camera model
 // ===================
 #define CAMERA_MODEL_AI_THINKER // Has PSRAM
+
 #include "camera_pins.h"
 
 // ===========================
 // Enter your WiFi credentials
 // ===========================
 const char* ssid     = "FTTH_2.4ghz";
-const char* password = "jjrch8dh20";
+const char* password = "wefwegefgwe";
 
 // ===========================
 // Status LED pin configuration
 // ===========================
+
 #define LED_STATUS_PIN 33
 
 // ---------------------------
@@ -33,6 +33,7 @@ const char* password = "jjrch8dh20";
 IPAddress local_IP(192, 168, 1, 43);
 IPAddress gateway(192, 168, 1, 1);
 IPAddress subnet(255, 255, 255, 0);
+
 IPAddress primaryDNS(8, 8, 8, 8);
 IPAddress secondaryDNS(8, 8, 4, 4);
 
@@ -82,7 +83,6 @@ void setup()
   Serial.begin(115200);
   Serial.setDebugOutput(true);
   Serial.println();
-
   pinMode(LED_STATUS_PIN, OUTPUT);
   digitalWrite(LED_STATUS_PIN, LOW);
 
@@ -128,7 +128,6 @@ void setup()
   config.pin_pwdn     = PWDN_GPIO_NUM;
   config.pin_reset    = RESET_GPIO_NUM;
   config.xclk_freq_hz = 20000000;
-  
   config.frame_size    = FRAMESIZE_UXGA;   // 1600x1200 (high quality)
   config.pixel_format  = PIXFORMAT_JPEG;     // for streaming
   config.grab_mode     = CAMERA_GRAB_WHEN_EMPTY;
@@ -191,8 +190,6 @@ void setup()
 void loop()
 {
   // Server runs in the background.
-  delay(1000);
-}
 
 // -----------------------------------------------------------
 // MJPEG Stream Handler (with extra headers)
@@ -269,7 +266,7 @@ static esp_err_t stream_handler(httpd_req_t *req)
 void startCameraServer()
 {
   httpd_config_t config = HTTPD_DEFAULT_CONFIG();
-  // For HTTPS support, you must configure TLS certificates in config.
+  // For HTTPS support, we must configure TLS certificates in config.
   if (httpd_start(&stream_httpd, &config) == ESP_OK) {
     httpd_uri_t stream_uri = {
       .uri       = "/",
@@ -281,6 +278,7 @@ void startCameraServer()
     Serial.println("HTTP Server started on port " + String(config.server_port));
   } else {
     Serial.println("Failed to start HTTP server");
+    // Turn LED on to indicate server start error
     digitalWrite(LED_STATUS_PIN, HIGH);
   }
 }
