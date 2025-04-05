@@ -4,7 +4,7 @@
   tap:
     - "tap-module/**"
   relay:
-    - "relay-node/**"
+    - "compute-node/**"
   docs:
     - "README.md"
     - "LICENSE"
