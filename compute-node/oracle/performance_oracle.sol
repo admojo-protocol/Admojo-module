@@ -75,23 +75,36 @@ contract PerformanceOracle {
             "Firmware hash mismatch"
         );
 
-        // 2) Convert that firmware hash into an Ethereum Signed Message
-        //    For a real EIP-191 style message, do:
-        //      keccak256("\x19Ethereum Signed Message:\n32" + _firmwareHash)
-        bytes32 ethSignedMsg = keccak256(
-            abi.encodePacked("\x19Ethereum Signed Message:\n32", _firmwareHash)
+        // 2) Create the message that was signed
+        // The message should include all the parameters that need to be verified
+        bytes32 messageHash = keccak256(
+            abi.encodePacked(
+                _deviceId,
+                _timestamp,
+                _views,
+                _taps,
+                _firmwareHash
+            )
         );
 
-        // 3) Recover the signer address from the signature
+        // 3) Create the EIP-191 signed message hash
+        bytes32 ethSignedMsg = keccak256(
+            abi.encodePacked(
+                "\x19Ethereum Signed Message:\n32",
+                messageHash
+            )
+        );
+
+        // 4) Recover the signer address from the signature
         address recovered = _recoverSigner(ethSignedMsg, _signature);
 
-        // 4) Check that it matches the device's authorized signer
+        // 5) Check that it matches the device's authorized signer
         require(
             recovered == deviceSigner[_deviceId],
             "Signature not from device signer"
         );
 
-        // 5) If all checks pass, store the metrics
+        // 6) If all checks pass, store the metrics
         metrics[_deviceId][_timestamp] = Metric(_views, _taps);
         emit MetricsUpdated(_deviceId, _timestamp, _views, _taps);
     }
