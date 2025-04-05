@@ -1,5 +1,5 @@
 # Automatically label changes based on module folders
-cam:
+  cam:
     - "cam-module/**"
   tap:
     - "tap-module/**"
