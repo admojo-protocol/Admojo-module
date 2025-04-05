@@ -4,8 +4,8 @@ pragma solidity ^0.8.0;
 contract PerformanceOracle {
     // Same Metric struct
     struct Metric {
-        uint views;  // Number of views
-        uint taps;   // Number of taps
+        uint views; // Number of views
+        uint taps; // Number of taps
     }
 
     // Mapping: deviceId => timestamp => Metric
@@ -26,8 +26,8 @@ contract PerformanceOracle {
     // ============================================================
     // NEW: Store (deviceId => signerAddress) and (deviceId => firmwareHash)
     // ============================================================
-    mapping(uint => address) public deviceSigner;    // deviceID => authorized signer address
-    mapping(uint => bytes32) public deviceFwHash;    // deviceID => approved firmware hash
+    mapping(uint => address) public deviceSigner; // deviceID => authorized signer address
+    mapping(uint => bytes32) public deviceFwHash; // deviceID => approved firmware hash
 
     constructor() {
         admin = msg.sender;
@@ -128,7 +128,10 @@ contract PerformanceOracle {
     // =====================================================================
 
     // We'll keep your getMetrics and getAggregatedMetrics as is, if you want:
-    function getMetrics(uint _deviceId, uint _timestamp) external view returns (uint views, uint taps) {
+    function getMetrics(
+        uint _deviceId,
+        uint _timestamp
+    ) external view returns (uint views, uint taps) {
         Metric memory metric = metrics[_deviceId][_timestamp];
         return (metric.views, metric.taps);
     }
@@ -144,5 +147,37 @@ contract PerformanceOracle {
             totalTaps += metric.taps;
         }
         return (totalViews, totalTaps);
+    }
+
+    function updateViews(
+        uint _deviceId,
+        uint _timestamp,
+        uint _views
+    ) external onlyAdmin {
+        Metric memory existing = metrics[_deviceId][_timestamp];
+        existing.views = _views;
+        metrics[_deviceId][_timestamp] = existing;
+        emit MetricsUpdated(
+            _deviceId,
+            _timestamp,
+            existing.views,
+            existing.taps
+        );
+    }
+
+    function updateTaps(
+        uint _deviceId,
+        uint _timestamp,
+        uint _taps
+    ) external onlyAdmin {
+        Metric memory existing = metrics[_deviceId][_timestamp];
+        existing.taps = _taps;
+        metrics[_deviceId][_timestamp] = existing;
+        emit MetricsUpdated(
+            _deviceId,
+            _timestamp,
+            existing.views,
+            existing.taps
+        );
     }
 }
