@@ -1,80 +1,75 @@
-# AdNet Protocol - Smart Advertising with IoT + AI
+# 🧠 AdMojo Compute Node: Where Eyeballs Meet Blockchain 👁️‍🗨️⛓️
 
-**Flow**: ESP32-CAM → Stream Video → Detection using RNN and duplication avoidance using IoU → Aggregated # of viewers in 5 min durations → Send to ThingSpeak.
+## What Sorcery Is This? 🪄
 
----
+Welcome, fellow code wizard! You've discovered the magical realm where computer vision and blockchain collide to create undeniable proof that humans actually looked at those ads. Wild, right?
 
-## 📸 ESP32-CAM Module: AdNetCamModule
+## The Tech Stack of Champions 🏆
 
-A tiny AI Thinker ESP32-CAM module powers our eyes-on-the-ground (literally). It streams MJPEG video over Wi-Fi so we can detect who's watching those juicy ads in real-time.
+- **Go**: Because life's too short for garbage collection pauses
+- **OpenCV**: Computer vision that doesn't require a PhD
+- **Ethereum**: Because regular databases are _so_ Web2
+- **Deep Neural Networks**: Basically magic, but with math
 
-### 🔧 Hardware Used
-- **Board:** ESP32-CAM (AI Thinker variant with PSRAM)
-- **Camera:** OV2640
-- **Status LED Pin:** GPIO 33
+## ✨ Features That Make You Go "Woah" ✨
 
-### ⚙️ Features
-- MJPEG video streaming over Wi-Fi (on http://192.168.1.43/)
-- Static IP config for consistency
-- Status LED blinks while connecting, stays off when ready
-- Stream served as `multipart/x-mixed-replace;boundary=123456789000000000000987654321`
-- Optimized for high-quality JPEG (UXGA or SVGA)
+### 🔍 AI-powered People Spotting
+- **Face Detection**: Our SSD + ResNet model can spot a face faster than you can say "privacy concerns"
+- **Clever Deduplication**: Using IoU tracking, we ensure we don't count the same bewildered face twice
+- **Configurable Paranoia Level**: Adjust confidence thresholds to your trust issues
+- **See The Matrix**: Watch the detector work in real-time with cool green rectangles (sunglasses not included)
 
-### 📝 Code Summary
-See `AdNetCamModule.ino` for full source. Highlights:
-- Initializes camera with dynamic config (PSRAM-aware)
-- Sets up MJPEG stream endpoint `/`
-- Streams images using ESP-IDF HTTP server
-- Loop does nothing; all work is done in background
+### 🔗 Blockchain Verification (The Trust Machine)
+- **Firmware Fingerprinting**: Each ESP32-CAM device has a unique cryptographic identity
+- **Tamper-Evident Metrics**: Try to fake these numbers. Seriously, we dare you
+- **Smart Contract Integration**: Your ad metrics are immortalized on the blockchain (until ETH2.0 finally ships)
+- **Cryptographic Flex**: ECDSA signatures that would make Satoshi nod in approval
 
-**To Access the Stream:**
-```bash
-http://192.168.1.43/  # Served MJPEG Stream
+## 🔐 The Verification Dance
+
+1. **Trust, But Verify**: 
+   - We pull cryptographic receipts from each camera
+   - If the firmware is tampered, the signature won't match
+   - Blockchain don't lie, people don't lie, only ads lie
+
+2. **Face-Finding Wizardry**:
+   - Every 5 seconds: "Got your face!"
+   - DNN goes brrrrr
+   - IoU says "Is this the same person as before? 🤔"
+
+3. **The Count of Monte Crypto**:
+   - We tally viewers like a vegas dealer counts cards
+   - But unlike Vegas, our count is provably fair
+
+4. **Blockchain Immortality**:
+   - Your metrics go on-chain faster than you can say "gas fees"
+   - Each transaction says: "These many humans saw this ad, for realsies"
+   - Cryptographically signed, mathematically sealed, digitally delivered
+
+## 🧩 Smart Contract Spellbook
+
+The `oracle/performance_oracle.go` contains incantations to communicate with the ethereal realm:
+
+```go
+// Simplified for mere mortals
+perfOracle.UpdateMetricsWithSig(
+    transactor,
+    deviceID,        // Which camera saw the thing
+    timestamp,       // When it saw the thing
+    faceCount,       // How many faces it saw
+    taps,            // How many people tapped (always 0 for now)
+    firmwareHash,    // Cryptographic fingerprint
+    signature,       // Magical seal of authenticity
+)
 ```
 
----
+## 🔮 Future Roadmap (When We Get VC Funding)
 
-## 🤖 Backend: Go + OpenCV + AI = ✨
-
-### 🔄 Flow
-1. Go app connects to MJPEG stream from ESP32-CAM
-2. Every 5 seconds, it grabs a frame
-3. Runs OpenCV DNN face detection (SSD + ResNet)
-4. Tracks new viewers (avoids counting duplicates using IoU filtering)
-5. Aggregates counts for 5 minutes
-6. Sends the count to [ThingSpeak](https://thingspeak.com/) via API
-
-### 🧩 Features
-- Uses GoCV (Go bindings for OpenCV)
-- DNN-based detector (ResNet SSD) for better accuracy than Haar
-- Deduplicates people using bounding-box IoU tracking
-- Configuration via `.env` (stream URL, model paths, thresholds)
-- Displays debug video with rectangles and confidence
-- Uses ThingSpeak to report proof-of-view metrics
-
-### 🛠⃣ How It Works
-- On every frame, we detect faces
-- We compare new bounding boxes to the previous frame
-- If IoU < threshold, it’s a new person (so we count it!)
-- Every 5 minutes, we send the total to ThingSpeak
-
-### 👀 Want to See the AI in Action?
-You’ll get a debug window with live rectangles drawn over faces along with confidence scores.
+- Zero-knowledge proofs (because we actually do care about privacy... kinda)
+- Multi-device correlation (creepy, but effective)
+- NFT-based ad allocation (because one buzzword isn't enough)
+- Decentralized ad marketplace (cutting out the middleman, becoming the middleman)
 
 ---
 
-## 📍 The Result?
-- Transparent, real-world Proof of Views
-- Performance-based rewards for Ad Service Providers
-- Smarter ads that actually engage people
-- All running on open tech you control
-
----
-
-## ✅ What's Next?
-- Plug into smart contracts for dynamic ad payouts
-- Integrate cryptography for verifiability on-chain
-
-Stay tuned. This is just the beginning.
-
-Made with ❤️ by Anon.
+Made with ☕ caffeine, 🤖 AI, and a healthy dose of 🤦‍♂️ debugging
