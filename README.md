@@ -8,6 +8,7 @@ Say goodbye to ad fraud. With cryptographic **Proof of Views** (via ESP32-CAM) a
 ---
 
 ## 🚀 Modules Breakdown
+<img width="678" alt="Screenshot 2025-04-06 at 5 54 30 AM" src="https://github.com/user-attachments/assets/f779e2c1-c1f6-48db-a401-f3240de02e2e" />
 
 ### 1. 📸 `admojo_web_server` — *Cryptographic Proof of Views Engine*
 
@@ -69,6 +70,7 @@ Say goodbye to ad fraud. With cryptographic **Proof of Views** (via ESP32-CAM) a
   - Transparent, immutable, and auditable Ethereum blockchain transactions
 
 > All actions cryptographically **verifiable**, **immutable**, and **auditable**.
+<img width="913" alt="Screenshot 2025-04-06 at 6 03 01 AM" src="https://github.com/user-attachments/assets/dc23a2c3-606d-401c-992b-589c64cf3761" />
 
 ---
 
