@@ -1,4 +1,4 @@
-# 🌐 ADMOJO Protocol  
+# 🌐 SOULBOARD  
 ### *Smarter Ads. Cryptographically Verified Engagement.*
 
 Welcome to **ADMOJO Protocol: Module Subrepo**
